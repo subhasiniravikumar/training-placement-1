@@ -1,0 +1,27 @@
+from collections import deque
+
+def word_ladder(beginWord: str, endWord: str, wordList: list) -> int:
+    if endWord not in wordList:
+        return 0
+    
+    wordList = set(wordList)
+    queue = deque([(beginWord, 1)])  # (word, depth)
+    visited = set([beginWord])
+    
+    while queue:
+        current_word, depth = queue.popleft()
+        
+        if current_word == endWord:
+            return depth
+        
+        for i in range(len(current_word)):
+            for char in 'abcdefghijklmnopqrstuvwxyz':
+                next_word = current_word[:i] + char + current_word[i+1:]
+                if next_word in wordList and next_word not in visited:
+                    visited.add(next_word)
+                    queue.append((next_word, depth + 1))
+    
+    return 0
+
+# Test case
+print(word_ladder("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))  # 5
