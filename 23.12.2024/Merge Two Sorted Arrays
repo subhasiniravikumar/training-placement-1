@@ -1,0 +1,4 @@
+#include <stdio.h>
+
+void merge(int arr1[], int arr2[], int merged[], int size1, int size2) {
+    int i = 0, j = 0, k =
