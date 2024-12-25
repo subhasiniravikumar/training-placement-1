@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <string.h>
+
+int longestUniqueSubstring(char* str) {
+    int n = strlen(str);
+    int maxLength = 0;
+    int start = 0;
+    int visited[256] = {0}; // Assuming ASCII character set
+
+    for (int end = 0; end < n; end++) {
+        if (visited[str[end]] > 0) {
+            start = (start > visited[str[end]]) ? start : visited[str[end]];
+        }
+        maxLength = (maxLength > end - start + 1) ? maxLength : end - start + 1;
+        visited[str[end]] = end + 1;
+    }
+
+    return maxLength;
+}
+
+int main() {
+    char str[] = "abcabcbb";
+    printf("Longest substring without repeating characters: %d\n", longestUniqueSubstring(str));
+    return 0;
+}
