@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TABLE_SIZE 10
+
+struct Node {
+    char key[100];
+    int value;
+    struct Node* next;
+};
+
+struct HashMap {
+    struct Node* table[TABLE_SIZE];
+};
+
+int hash(char* key) {
+    int hashVal = 0;
+    for (int i = 0; i < strlen(key); i++) {
+        hashVal = (hashVal + key[i]) % TABLE_SIZE;
+    }
+    return hashVal;
+}
+
+void insert(struct HashMap* map, char* key, int value) {
+    int index = hash(key);
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    strcpy(newNode->key, key);
+    newNode->value = value;
+    newNode->next = map->table[index];
+    map->table[index] = newNode;
+}
+
+int search(struct HashMap* map, char* key) {
+    int index = hash(key);
+    struct Node* temp = map->table[index];
+    while (temp != NULL) {
+        if (strcmp(temp->key, key) == 0) {
+            return temp->value;
+        }
+        temp = temp->next;
+    }
+    return -1; // Not found
+}
+
+int main() {
+    struct HashMap map = {0};
+
+    insert(&map, "apple", 10);
+    insert(&map, "banana", 20);
+    insert(&map, "grape", 30);
+
+    printf("Value for apple: %d\n", search(&map, "apple"));
+    printf("Value for grape: %d\n", search(&map, "grape"));
+    printf("Value for pear: %d\n", search(&map, "pear"));
+
+    return 0;
+}
