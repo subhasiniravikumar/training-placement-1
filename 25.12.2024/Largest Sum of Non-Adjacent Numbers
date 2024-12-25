@@ -1,0 +1,18 @@
+def largest_sum_non_adjacent(nums):
+    if not nums:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+    
+    include = nums[0]
+    exclude = 0
+    
+    for num in nums[1:]:
+        new_include = exclude + num
+        exclude = max(exclude, include)
+        include = new_include
+    
+    return max(include, exclude)
+
+# Test case
+print(largest_sum_non_adjacent([2, 4, 6, 2, 5]))  # 13
